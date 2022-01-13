@@ -8,9 +8,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-using freddo_index.Data;
+using FreddoIndex.Data;
 
-namespace freddo_index
+namespace FreddoIndex
 {
     public class Program
     {

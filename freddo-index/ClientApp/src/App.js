@@ -3,11 +3,11 @@ import React from 'react';
 import { 
     createStyles, 
     makeStyles 
-} from '@material-ui/core/styles';
+} from '@mui/styles';
 import { 
-    Paper, 
+    Paper,
     Grid
-} from '@material-ui/core';
+} from '@mui/material';
 
 import Page from './components/Page'
 
@@ -62,13 +62,13 @@ const App = props => {
                 <Grid
                     item
                     container
-                    justify="center"
+                    justifyContent="center"
                     xs={12}
                     lg={8}
                 >
                     <Grid
                         container
-                        justify="center"
+                        justifyContent="center"
                         spacing={12}
                     >
                         <Page />

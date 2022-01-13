@@ -7,7 +7,7 @@
     <IsPackable>false</IsPackable>
     <SpaRoot>ClientApp\</SpaRoot>
     <DefaultItemExcludes>$(DefaultItemExcludes);$(SpaRoot)node_modules\**</DefaultItemExcludes>
-    <RootNamespace>freddo_index</RootNamespace>
+    <RootNamespace>FreddoIndex</RootNamespace>
   </PropertyGroup>
 
   <ItemGroup>

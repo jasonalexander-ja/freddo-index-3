@@ -6,10 +6,10 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.EntityFrameworkCore;
-using freddo_index.Models;
-using freddo_index.Data;
+using FreddoIndex.Models;
+using FreddoIndex.Data;
 
-namespace freddo_index
+namespace FreddoIndex
 {
     public class Startup
     {
@@ -35,6 +35,7 @@ namespace freddo_index
                 options.UseSqlServer(Configuration.GetConnectionString("FreddoIndexContext")));
 
             services.AddSingleton<ICurrencyMaps, CurrencyMaps>();
+            services.AddSingleton<ICurrenciesHistory, CurrenciesHistory>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

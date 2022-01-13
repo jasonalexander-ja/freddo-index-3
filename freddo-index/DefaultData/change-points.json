@@ -32,7 +32,7 @@
     },
     {
       "activeFrom": "2018-01-01T00:00:00.000Z",
-      "activeUntil": "2018-01-01T00:00:00.000Z",
+      "activeUntil": null,
       "price": 0.25
     }
   ]

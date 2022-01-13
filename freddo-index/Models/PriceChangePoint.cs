@@ -4,7 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace freddo_index.Models
+namespace FreddoIndex.Models
 {
     public class PriceChangePoint
     {
@@ -16,6 +16,6 @@ namespace freddo_index.Models
         public int ID { get; set; }
         public double price { get; set; }
         public DateTime activeFrom { get; set; }
-        public DateTime activeUntil { get; set; }
+        public DateTime? activeUntil { get; set; }
     }
 }

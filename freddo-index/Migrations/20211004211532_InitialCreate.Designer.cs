@@ -5,9 +5,9 @@ using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
-using freddo_index.Data;
+using FreddoIndex.Data;
 
-namespace freddo_index.Migrations
+namespace FreddoIndex.Migrations
 {
     [DbContext(typeof(FreddoIndexContext))]
     [Migration("20211004211532_InitialCreate")]

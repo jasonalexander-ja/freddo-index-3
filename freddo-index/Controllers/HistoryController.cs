@@ -1,29 +1,25 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using freddo_index.Models;
-using freddo_index.Data;
+using FreddoIndex.Models;
+using FreddoIndex.Data;
 
-namespace freddo_index.Controllers
+namespace FreddoIndex.Controllers
 {
-    //[Route("api/[controller]")]
+    [Route("[controller]")]
     [ApiController]
     public class HistoryController : ControllerBase
     {
         private ICurrencyMaps maps;
         private FreddoIndexContext context;
-
         public HistoryController(ICurrencyMaps _maps, FreddoIndexContext _context)
         {
             maps = _maps;
             context = _context;
         }
 
-        [HttpGet]
-        [ActionName("History")]
+        [HttpGet("{date}")]
         public async Task<CurrencyMappings> HistoryGet(DateTime date)
         {
             var ret = new CurrencyMappings();

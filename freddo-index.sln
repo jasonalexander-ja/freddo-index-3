@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.31424.327
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "freddo-index", "freddo-index\freddo-index.csproj", "{49C47A1A-EE12-4559-88C0-E5E7F6B1E548}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FreddoIndex", "freddo-index\FreddoIndex.csproj", "{49C47A1A-EE12-4559-88C0-E5E7F6B1E548}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

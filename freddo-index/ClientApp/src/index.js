@@ -1,23 +1,39 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 
-import { ThemeProvider } from '@material-ui/core';
+import { 
+    ThemeProvider 
+} from '@mui/material/styles';
+import {
+    ThemeProvider as LegacyThemeProvider
+} from '@material-ui/core'
 import {
     CssBaseline
-} from '@material-ui/core';
+} from '@mui/material';
+
+import {
+    LocalizationProvider
+} from '@mui/lab';
+import DateAdapter from '@mui/lab/AdapterDateFns';
+
 
 import App from './App';
 
-import useTheme from './theme';
+import useTheme, { useLegacyTheme } from './theme';
 
 const Main = () => {
     const theme = useTheme();
+    const legacyTheme = useLegacyTheme();
 
     return (
-        <ThemeProvider theme={theme}>
-            <CssBaseline />
-            <App />
-        </ThemeProvider>
+        <LocalizationProvider dateAdapter={DateAdapter}>
+            <ThemeProvider theme={theme}>
+                <LegacyThemeProvider theme={legacyTheme}>
+                    <CssBaseline />
+                    <App />
+                </LegacyThemeProvider>
+            </ThemeProvider>
+        </LocalizationProvider>
     );
 }
 

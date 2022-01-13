@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
-using freddo_index.Models;
+using FreddoIndex.Models;
 
-namespace freddo_index.Data
+namespace FreddoIndex.Data
 {
     public class FreddoIndexContext : DbContext
     {

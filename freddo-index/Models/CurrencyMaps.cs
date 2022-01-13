@@ -6,24 +6,10 @@ using System.IO;
 using System.Threading.Tasks;
 using System.Text.Json;
 
-namespace freddo_index.Models
+namespace FreddoIndex.Models
 {
-    public interface ICurrencyMaps
-    {
-        public Dictionary<DateTime, CurrencyMappings> maps { get; set; }
-        public Task<CurrencyMappings> GetMapFor(DateTime date);
 
-    }
-    public class CurrencyMappings
-    {
-        public CurrencyMappings()
-        {
-            date = new DateTime();
-            rates = new Dictionary<string, double>();
-        }
-        public DateTime date { get; set; }
-        public Dictionary<string, double> rates { get; set; }
-    }
+
     public class CurrencyMaps: ICurrencyMaps
     {
         private static readonly CurrencyMaps _currencyMappingsServiceInstance = new CurrencyMaps();

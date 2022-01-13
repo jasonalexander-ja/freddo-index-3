@@ -1,15 +1,11 @@
-import React, { useState } from 'react';
+import React from 'react';
 
 import {
     Grid,
     Card,
     Typography,
-    CardContent,
-    FormControl,
-    InputLabel,
-    Select,
-    MenuItem
-} from '@material-ui/core';
+    CardContent
+} from '@mui/material';
 import {
     ArgumentAxis,
     ValueAxis,
@@ -19,7 +15,9 @@ import {
 import {
     makeStyles,
     useTheme
-} from '@material-ui/core/styles';
+} from '@mui/styles';
+
+import OptionsPanel from './OptionsPanel';
 
 const useStyles = makeStyles(theme => ({
     card: {
@@ -31,27 +29,21 @@ const useStyles = makeStyles(theme => ({
     },
     cardContent: {
         flexGrow: 1,
-        padding: 0,
-        paddingBottom: '0px!important'
+        padding: '0px!important'
     },
     line: {
-        padding: '16px'
+        padding: theme.spacing(2),
+        backgroundColor: theme.palette.primary.main
     },
     lineDark: {
-        padding: '16px',
-        backgroundColor: theme.palette.background.paper
+        padding: theme.spacing(2),
+        backgroundColor: theme.palette.grey[800]
     }
 }));
 
 const Page = props => {
     const classes = useStyles();
     const theme = useTheme();
-
-    const [age, setAge] = useState('10');
-
-    const handleChange = (event) => {
-        setAge(event.target.value);
-    };
 
     const data = [
         { argument: 1, value: 1 },
@@ -65,7 +57,7 @@ const Page = props => {
                 item
                 xs={11}
                 sm={7}
-                md={5}
+                md={6}
             >
                 <Card className={classes.card}>
                     <CardContent className={classes.cardContent}>
@@ -80,42 +72,7 @@ const Page = props => {
                             >
                                 <Typography style={{ textAlign: "center", fontWeight: 500 }} variant="h4">International Freddo Index</Typography>
                             </Grid>
-                            <Grid
-                                item
-                                container
-                                xs={12}
-                                justifyContent="space-around"
-                                className={classes.lineDark}
-                            >
-                                <FormControl color="secondary">
-                                    <InputLabel id="demo-simple-select-label">Age</InputLabel>
-                                    <Select
-                                        labelId="demo-simple-select-label"
-                                        id="demo-simple-select"
-                                        value={age}
-                                        label="Age"
-                                        onChange={handleChange}
-                                    >
-                                        <MenuItem value={10}>Ten</MenuItem>
-                                        <MenuItem value={20}>Twenty</MenuItem>
-                                        <MenuItem value={30}>Thirty</MenuItem>
-                                    </Select>
-                                </FormControl>
-                                <FormControl color="secondary">
-                                    <InputLabel id="demo-simple-select-label">Age</InputLabel>
-                                    <Select
-                                        labelId="demo-simple-select-label"
-                                        id="demo-simple-select"
-                                        value={age}
-                                        label="Age"
-                                        onChange={handleChange}
-                                    >
-                                        <MenuItem value={10}>Ten</MenuItem>
-                                        <MenuItem value={20}>Twenty</MenuItem>
-                                        <MenuItem value={30}>Thirty</MenuItem>
-                                    </Select>
-                                </FormControl>
-                            </Grid>
+                            <OptionsPanel />
                             <Grid
                                 item
                                 xs={12}
@@ -149,5 +106,5 @@ const Page = props => {
         </>
     );
 }
-// az sql server create --name FreddoIndexProd --resource-group FreddoIndex --location "UK West" --admin-user fred --admin-password HackspaceFreddo01!! 
+ 
 export default Page;

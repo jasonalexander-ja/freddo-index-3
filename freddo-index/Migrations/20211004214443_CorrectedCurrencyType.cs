@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore.Migrations;
 
-namespace freddo_index.Migrations
+namespace FreddoIndex.Migrations
 {
     public partial class CorrectedCurrencyType : Migration
     {

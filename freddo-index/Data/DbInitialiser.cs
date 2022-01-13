@@ -4,9 +4,9 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.IO;
 using System.Text.Json;
-using freddo_index.Models;
+using FreddoIndex.Models;
 
-namespace freddo_index.Data
+namespace FreddoIndex.Data
 {
     class ChangePointsTransistion
     {
