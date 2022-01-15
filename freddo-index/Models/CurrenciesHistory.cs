@@ -8,64 +8,88 @@ using System.Text.Json;
 
 namespace FreddoIndex.Models
 {
+    public class LanguageCode
+    {
+        public Dictionary<string, Dictionary<string, string>> symbols { get; set; }
+    }
     public class CurrenciesHistory : ICurrenciesHistory
     {
         public Dictionary<string, CurrencyHistory> histories { get; set; } = new Dictionary<string, CurrencyHistory>();
-
-        private class CurrencyMappingsRes : CurrencyMappings
-        {
-
-        }
-        static async Task<string> GetHistoryForCurrencyAsync(string uri)
+        public LanguageCode acceptedCodes { get; set; } = new LanguageCode();
+        private static async Task<string> GetAsync(string uri)
         {
             HttpWebRequest request = (HttpWebRequest)WebRequest.Create(uri);
             request.AutomaticDecompression = DecompressionMethods.GZip | DecompressionMethods.Deflate;
-
-            using (HttpWebResponse response = (HttpWebResponse)await request.GetResponseAsync())
-            using (Stream stream = response.GetResponseStream())
-            using (StreamReader reader = new StreamReader(stream))
+            try
             {
-                string value = await reader.ReadToEndAsync();
-                return value;
+                using (var response = (HttpWebResponse)await request.GetResponseAsync())
+                using (var stream = response.GetResponseStream())
+                using (var reader = new StreamReader(stream))
+                {
+                    string value = await reader.ReadToEndAsync();
+                    return value;
+                }
+            } catch(Exception e)
+            {
+                throw new Exception($"Failed to get a reponse from currency convertyer service: {e.Message}");
             }
+        }
+        public CurrenciesHistory()
+        {
+            Task.Run(async () =>
+            {
+                try
+                {
+                    var res = await GetAsync("https://api.exchangerate.host/symbols");
+                    var s = JsonSerializer.Deserialize<LanguageCode>(res);
+                    acceptedCodes.symbols = s.symbols;
+                }
+                catch (Exception e)
+                {
+                }
+            }).GetAwaiter().GetResult();
         }
         public async Task<CurrencyHistory> GetHistory(string currency, int since)
         {
             int currentYear = DateTime.Now.Year;
+            if (!acceptedCodes.symbols.ContainsKey(currency))
+            {
+                throw new Exception("Currency not accepted.");
+            }
             if (histories.ContainsKey(currency))
             {
-                var cached_ret = new CurrencyHistory();
-                histories.TryGetValue(currency, out cached_ret);
-                if (cached_ret.until.Year == currentYear) {
-                    return cached_ret;
+                var cachedRet = histories.GetValueOrDefault(currency);
+                if (cachedRet.until.Year == currentYear) {
+                    return histories.GetValueOrDefault(currency);
                 }
             }
-            var urls = new List<(string, int)>();
-            for(int i = since; i < currentYear; i++)
+            var urls = Enumerable.Range(since, currentYear - since)
+                .ToList()
+                .Select(i => ($"https://api.exchangerate.host/{i}-06-01?symbols={currency}&base=GBP", i));
+            try
             {
-                urls.Add(($"https://api.exchangerate.host/{i}-06-01?symbols={currency}&base=GBP", i));
-            }
-            var results = new List<(DateTime, double)>();
-            Task.WaitAll(urls.Select(async i => {
-                (string url, int date) = i;
-                var res = await GetHistoryForCurrencyAsync(url);
-                var data = JsonSerializer.Deserialize<CurrencyMappings>(res);
-                double value = 0;
-                data.rates.TryGetValue(currency, out value);
-                if (value != 0)
+                var tasks = urls.Select(async i =>
                 {
-                    results.Add((new DateTime(date, 6, 1), value));
-                }
-            }).ToArray());
-            var ret = new CurrencyHistory();
-            foreach((DateTime, double) val in results) {
-                (DateTime date, double value) = val;
-                ret.history.Add(date, value);
+                    (string url, int date) = i;
+                    var res = await GetAsync(url);
+                    var data = JsonSerializer.Deserialize<CurrencyMappings>(res);
+                    double value = data.rates.GetValueOrDefault(currency);
+                    return (new DateTime(date, 6, 1), value);
+                }).ToArray();
+                var results = (await Task.WhenAll(tasks))
+                    .ToDictionary(d => d.Item1, d => d.Item2);
+                var ret = new CurrencyHistory
+                {
+                    history = results,
+                    currency = currency,
+                    until = DateTime.Now
+                };
+                histories.Add(currency, ret);
+                return ret;
+            } catch(Exception e)
+            {
+                throw new Exception($"Failed to get history for the currency: {e.Message}");
             }
-            ret.currency = currency;
-            ret.until = DateTime.Now;
-            histories.Add(currency, ret);
-            return ret;
         }
     }
 }

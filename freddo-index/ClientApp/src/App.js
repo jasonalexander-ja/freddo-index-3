@@ -51,7 +51,6 @@ const App = props => {
         <Paper className={classes.root}>
             <Grid
                 container
-                xs={12}
                 className={classes.content}
             >
                 <Grid

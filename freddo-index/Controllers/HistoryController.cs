@@ -20,14 +20,26 @@ namespace FreddoIndex.Controllers
         }
 
         [HttpGet("{date}")]
-        public async Task<CurrencyMappings> HistoryGet(DateTime date)
+        public async Task<ActionResult<CurrencyMappings>> HistoryGet(DateTime date)
         {
             var ret = new CurrencyMappings();
             var changePointsListQuery = from changePoints in context.PriceChangePoints
-                                        where date > changePoints.activeFrom && date < changePoints.activeUntil
+                                        where date > changePoints.activeFrom && (date < changePoints.activeUntil || changePoints.activeUntil == null)
                                         select changePoints;
+
             var changePoint = changePointsListQuery.FirstOrDefault();
-            var currencyMappings = await maps.GetMapFor(date);
+            if (changePoint == null)
+            {
+                return ret;
+            }
+            CurrencyMappings currencyMappings =  new CurrencyMappings();
+            try
+            {
+                currencyMappings = await maps.GetMapFor(date);
+            } catch (Exception e)
+            {
+                throw new Exception($"Error dealing with this request: {e.Message}");
+            }
             foreach (var item in currencyMappings.rates)
             {
                 double newVal = item.Value * changePoint.price;
