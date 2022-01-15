@@ -10,7 +10,7 @@ namespace FreddoIndex.Models
         public CurrencyHistory()
         {
             currency = "";
-            until = DateTime.Now;
+            until = new DateTime(DateTime.Now.Year, 06, 01);
             history = new Dictionary<DateTime, double>();
         }
         public string currency { get; set; }
