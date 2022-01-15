@@ -20,9 +20,7 @@ import {
     makeStyles
 } from '@mui/styles';
 
-const useClasses = makeStyles(theme => {
-    console.log(theme);
-    return ({
+const useClasses = makeStyles(theme => ({
     line: {
         padding: '16px'
     },
@@ -34,15 +32,13 @@ const useClasses = makeStyles(theme => {
         width: '100%',
         margin: '8px'
     }
-})})
+}));
 
 export default function OptionsPanel(props) {
     const classes = useClasses();
     const showDesktop = useMediaQuery(theme => theme.breakpoints.up('sm'));
 
-    const [date, setDate] = useState(new Date(new Date().getFullYear()), new Date(new Date().getMonth()), new Date(new Date().getDate()));
-    
-    console.log(date);
+    const [date, setDate] = useState();
 
     return (
         <Grid
@@ -60,17 +56,15 @@ export default function OptionsPanel(props) {
                 xs={12}
                 justifyContent="flex-start"
             >
-                <Typography>Currency</Typography>
                 <FormControl 
                     color="secondary" 
                     sx={{ m: 1, minWidth: 100 }}
                     className={classes.optionContainer}
                 >
-                    <InputLabel variant="caption">Currency</InputLabel>
+                    <InputLabel>Currency</InputLabel>
                     <Select
                         label="Currency"
                         color="secondary"
-                        variant="standard"
                         autoWidth
                     >
                         <MenuItem value={10}>Ten</MenuItem>
@@ -86,29 +80,25 @@ export default function OptionsPanel(props) {
                 xs={12}
                 justifyContent="flex-start"
             >
-                <Typography variant="caption">Currency</Typography>
                 <FormControl 
                     color="secondary" 
                     sx={{ m: 1, minWidth: 100 }}
                     className={classes.optionContainer}
                 >
-                    {showDesktop ?
+                    {showDesktop ? 
                         <DesktopDatePicker
-                            renderInput={params => 
-                                <TextField 
-                                    color="secondary" 
-                                    variant="standard" 
-                                    {...params} 
-                                />
-                            }
-                            label="Test"
+                            label="Date desktop"
+                            inputFormat="MM/dd/yyyy"
+                            color="secondary"
+                            value={date}
+                            onChange={setDate}
+                            renderInput={(params) => <TextField color="secondary" {...params} />}
                         /> :
                         <MobileDatePicker
                             className={classes.optionContainer}
                             renderInput={params => 
                                 <TextField 
                                     color="secondary" 
-                                    variant="standard" 
                                     {...params} 
                                 />
                             }

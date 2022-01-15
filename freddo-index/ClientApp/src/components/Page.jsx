@@ -17,6 +17,8 @@ import {
     useTheme
 } from '@mui/styles';
 
+import clsx from 'clsx';
+
 import OptionsPanel from './OptionsPanel';
 
 const useStyles = makeStyles(theme => ({
@@ -32,12 +34,20 @@ const useStyles = makeStyles(theme => ({
         padding: '0px!important'
     },
     line: {
-        padding: theme.spacing(2),
+        padding: theme.spacing(3.5),
+        paddingTop: '0px',
         backgroundColor: theme.palette.primary.main
     },
     lineDark: {
         padding: theme.spacing(2),
+        paddingTop: '0px',
         backgroundColor: theme.palette.grey[800]
+    },
+    firstOfLine: {
+        paddingTop: theme.spacing(3.5),
+    },
+    firstOfLineDark: {
+        paddingTop: theme.spacing(2),
     }
 }));
 
@@ -68,7 +78,7 @@ const Page = props => {
                                 item
                                 xs={12}
                                 justifyContent="center"
-                                className={classes.line}
+                                className={clsx(classes.line, classes.firstOfLine)}
                             >
                                 <Typography style={{ textAlign: "center", fontWeight: 500 }} variant="h4">International Freddo Index</Typography>
                             </Grid>
@@ -77,7 +87,7 @@ const Page = props => {
                                 item
                                 xs={12}
                                 justifyContent="center"
-                                className={classes.lineDark}
+                                className={clsx(classes.lineDark)}
                             >
                                 <Chart
                                     data={data}

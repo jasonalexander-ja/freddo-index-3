@@ -1,7 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using FreddoIndex.Models;
@@ -9,7 +7,7 @@ using FreddoIndex.Data;
 
 namespace FreddoIndex.Controllers
 {
-    [Route("[controller]")]
+    [Route("Currency")]
     [ApiController]
     public class CurrencyController : ControllerBase
     {
@@ -22,7 +20,7 @@ namespace FreddoIndex.Controllers
         }
 
         [HttpGet("{currency}")]
-        public async Task<CurrencyHistory> CurrencyGet(string currency)
+        public async Task<ActionResult<CurrencyHistory>> CurrencyGet(string currency)
         {
             var ret = new CurrencyHistory();
             var datesQuery = from changePoints in context.PriceChangePoints
